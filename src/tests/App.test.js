@@ -1,5 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import App from '../App';
 
@@ -12,12 +13,12 @@ describe('Testa se o topo da aplicação contém um conjunto fixo de links de na
     });
     it('O segundo link deve possuir o texto About', () => {
       renderWithRouter(<App/>);
-      const aboutLink = screen.getByRole('link', {name: /about/i});
+      const aboutLink = screen.getByRole('link', { name: /about/i });
       expect(aboutLink).toBeInTheDocument();
     });
     it('O terceiro link deve possuir o texto Favorite Pokémons', () => {
       renderWithRouter(<App/>);
-      const favoritePokemonsLink = screen.getByRole('link', {name: /favorite pokémons/i});
+      const favoritePokemonsLink = screen.getByRole('link', { name: /favorite pokémons/i });
       expect(favoritePokemonsLink).toBeInTheDocument();
     });
   });
@@ -51,8 +52,9 @@ describe('Testes de redirecionamento dos Links',
     it('URL desconhecida => NOT FOUND',
     () => {
       const { history } = renderWithRouter(<App />);
-      history.push('/not-a-link');
-      expect(history.location.pathname).toBe('/notfound');
+      history.push('/not-a-page');
+      const text = screen.getByText(/Page requested not found/i);
+      expect(text).toBeInTheDocument();
     });
   }
 )
